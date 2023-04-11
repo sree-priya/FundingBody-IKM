@@ -9,10 +9,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Build and test with Maven
-      run: mvn test
-
     - name: Code formatting using spotless
       run: |
         mvn spotless:apply

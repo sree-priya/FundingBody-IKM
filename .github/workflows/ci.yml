@@ -20,11 +20,6 @@ jobs:
       - name: Run tests
         run: mvn test
 
-      - name: Format code
-        uses: diffplug/spotless-cli@3.31.0
-        with:
-          config-path: '.spotless.pom.xml'
-
       - name: Check PR title format
         uses: peter-evans/regex-conformance@v1
         with:

@@ -2,8 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - new-branch
+    types: [opened, edited, synchronize]
 
 jobs:
   build:

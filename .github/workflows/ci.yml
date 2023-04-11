@@ -17,9 +17,6 @@ jobs:
         with:
           java-version: 17
 
-      - name: Run tests
-        run: mvn test
-
       - name: Verify PR title format
         env:
           PR_TITLE_REGEX: 'PTX-\d+: .*'

@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Format code
+        uses: dbenque/maven-spotless-plugin@v2.10.0
+        with:
+          maven-goal: 'com.diffplug.spotless:spotless-maven-plugin:apply'
+
+      - name: Verify PR title format
+        env:
+          PR_TITLE_REGEX: 'PTX-\d+: .*'
+        run: |
+          if ! echo "${{ github.event.pull_request.title }}" | grep -qE "${{ env.PR_TITLE_REGEX }}"; then
+            echo "Error: PR title does not match required format (${PR_TITLE_REGEX})" >&2
+            exit 1
+          fi

@@ -33,6 +33,7 @@ public class FundingBodyController {
         FundingBody fundingBody = fundingBodyRequestToFundingBodyConverter.convert(fundingBodyRequest);
         fundingBodyService.addFundingBody(fundingBody);
         System.out.println("hoi");
+        System.out.println("hoi");
         return "created";
     }
 }

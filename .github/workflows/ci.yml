@@ -22,7 +22,7 @@ jobs:
       run: mvn test
       
     - name: Check code formatting
-      uses: diffplug/spotless-action@v3
+      uses: diffplug/spotless-action@v2
       with:
         spotless-version: '5.14.0'
         spotless-files: '**/*.java'

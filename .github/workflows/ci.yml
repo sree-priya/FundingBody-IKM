@@ -21,8 +21,3 @@ jobs:
     - name: Code formatting using spotless
       run: |
         mvn spotless:apply
-
-    - name: PR title checker
-      uses: chrnorm/check-pr-title@v1
-      with:
-        regex: 'PTX-.*: .+'

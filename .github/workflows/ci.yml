@@ -20,11 +20,6 @@ jobs:
       - name: Run tests
         run: mvn test
 
-      - name: Format code
-        uses: dbenque/maven-spotless-plugin@v2.10.0
-        with:
-          maven-goal: 'com.diffplug.spotless:spotless-maven-plugin:apply'
-
       - name: Verify PR title format
         env:
           PR_TITLE_REGEX: 'PTX-\d+: .*'

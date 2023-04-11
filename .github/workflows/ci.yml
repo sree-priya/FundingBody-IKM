@@ -11,5 +11,5 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Code formatting using spotless
-      run: mvn spotless:apply
+      run: mvn spotless:check --batch-mode
 

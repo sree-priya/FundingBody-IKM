@@ -32,6 +32,7 @@ public class FundingBodyController {
     public String createFundingBody(@RequestBody FundingBodyRequest fundingBodyRequest){
         FundingBody fundingBody = fundingBodyRequestToFundingBodyConverter.convert(fundingBodyRequest);
         fundingBodyService.addFundingBody(fundingBody);
+        System.out.println("hoi");
         return "created";
     }
 }

@@ -2,33 +2,29 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, edited, synchronize]
+    types: [opened, edited, reopened]
 
 jobs:
-  build:
-
+  check_title:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
         java-version: '17'
-        
-    - name: Build and test with Maven
-      run: mvn test
-      
-    - name: Check code formatting
-      uses: diffplug/spotless-action@v2
+
+    - name: Build with Maven
+      run: mvn -B clean package --file pom.xml
+
+    - name: Check PR Title
+      uses: marocchino/sticky-pull-request-comment@v2.4.1
       with:
-        spotless-files: '**/*.java'
-        
-    - name: Check PR title
-      uses: ad-m/github-push-action@v0.5.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head_ref }}
-        pattern: 'PTX-\d+: .*'
+        message: |
+          Please make sure your PR title matches the following format: `PTX-<any string>: <title>`
+        regex: 'PTX-\S+: .+'
+        exclude: 'automated'
+

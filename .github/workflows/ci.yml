@@ -2,29 +2,32 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, edited, reopened]
-
+    types: [opened, edited, synchronize]
+    
 jobs:
-  check_title:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17'
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
 
-    - name: Build with Maven
-      run: mvn -B clean package --file pom.xml
+      - name: Run tests
+        run: mvn test
 
-    - name: Check PR Title
-      uses: marocchino/sticky-pull-request-comment@v2.4.1
-      with:
-        message: |
-          Please make sure your PR title matches the following format: `PTX-<any string>: <title>`
-        regex: 'PTX-\S+: .+'
-        exclude: 'automated'
+      - name: Format code
+        uses: diffplug/spotless-github-action@v4.5
+        with:
+          spotless-version: '5.14.2'
 
+      - name: Check PR title format
+        uses: peter-evans/regex-check@v1
+        with:
+          regex: 'PTX-\d+: .+'
+          flags: 'i'
+          error-message: 'Please follow the PTX-<number>: <title> format in your PR title.'
